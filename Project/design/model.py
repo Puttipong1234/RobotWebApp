@@ -1,6 +1,7 @@
 import csv
 from operator import itemgetter
 from itertools import groupby
+import os
 
 class RobotRSA():
     
@@ -8,7 +9,7 @@ class RobotRSA():
         # element_type : beam , column , slab , wall , etc
         # csv path in your location
         # RobotData : List data from csv (raw data for plotting)
-        self.csv_path = csv_path
+        self.csv_path = os.path.join('Project',csv_path)
         self.element_type = element_type
         self.RobotData = list()
         self.SortedData = list()
@@ -25,11 +26,11 @@ class RobotRSA():
     def Regenerate_by_Type(self,reader):
                 
         for i in reader:
-            BarNum , Point , Case , MomentX, MomentY , MomentZ , FX , FY, FZ  = i['Bar/Point/Case'].split('/')[0] , i['Bar/Point/Case'].split('/')[1] , i['Bar/Point/Case'].split('/')[2] , i['MX (kNm)'], i['MY (kNm)'] , i['MZ (kNm)'] , i['FX (kN)'] , i['FY (kN)'], i['FZ (kN)']
-            if str(Point).strip() == '0.50':
-                Point = 'Middle'
-            else :
-                Point = 'End'
+            BarNum , Point , Case , MomentX, MomentY , MomentZ , FX , FY, FZ  = i['Bar/Point/Case'].split(' ')[1].split('/')[0] , i['Bar/Point/Case'].split(' ')[2].split('/')[0] , i['Bar/Point/Case'].split(' ')[3] , i['MX (kNm)'], i['MY (kNm)'] , i['MZ (kNm)'] , i['FX (kN)'] , i['FY (kN)'], i['FZ (kN)']
+            # if str(Point).strip() == '0.50':
+            #     Point = 'Middle'
+            # else :
+            #     Point = 'End'
             
             self.RobotData.append([BarNum , Point , Case , MomentX , MomentY , MomentZ , FX , FY ,FZ])
             
